@@ -10,4 +10,19 @@ class ProductServiceApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	void getProductById() {
+	}
+
+	@Test
+	void getProductList() {
+	}
+
+	@Test
+	void createProduct() {
+	}
+
+	@Test
+	void getByCate() {
+	}
 }

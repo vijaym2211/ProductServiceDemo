@@ -6,7 +6,9 @@ import com.example.ProductService.models.Product;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-@Service
+import java.util.List;
+
+@Service("fakeStore")
 public class FakeStoreProductService implements ProductService{
 
     @Override
@@ -22,6 +24,30 @@ public class FakeStoreProductService implements ProductService{
 //            throw new ProductNotFoundException("Product with id:" + id + " was not found");
 //        }
         return convertFakeStoreProductToProduct(fakeSDto);
+    }
+
+    @Override
+    public List<Product> getProductList() {
+        return null;
+    }
+
+    @Override
+    public void deleteByid(long id) {
+    }
+
+    @Override
+    public List<Product> getByCate(String category) {
+        return null;
+    }
+
+    @Override
+    public Product updateById(long id, String name, String category, String description) {
+        return null;
+    }
+
+    @Override
+    public Product createProduct(String name, String category, String description) {
+        return null;
     }
 
     private Product convertFakeStoreProductToProduct(FakeStoreProductDto dto){
