@@ -1,6 +1,21 @@
 package com.example.ProductService.models;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 //Used fro getter and setter
+@Entity
 public class Product {
+    @Id
+    private long id;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     private String name;
     private String category;
