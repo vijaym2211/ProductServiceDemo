@@ -2,9 +2,17 @@ package com.example.ProductService.repositories;
 
 import com.example.ProductService.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+
+//Types of Queries
+//
+//        Declare Queries
+//        HQL(Hibernate Query Language)
+//        SQL - native = true
 
 //Connecting to DB
 @Repository
@@ -22,10 +30,28 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // select * from products where id = {id}
     Product findById(long id);
 
+//    Declare query
+//    Optional<Product> findById(long id);
+
     // Find all products by category
     // select * from products where category = {category}
     List<Product> findAllByCategory(String category);
 
     void deleteById(Long aLong);
+
+//    Declare Query
+    List<Product> findAllByNameLike(String word);
+
+    List<Product> findAllByNameLikeIgnoreCase(String word);
+
+    List<Product> findAllByIdLessThan(long id);
+
+//    HQL
+    @Query("select p.name, p.category from Product p where p.id = :id")
+    List<Product> selectById(long id);
+
+//    SQL
+    @Query(value = "select * from product p where p.id =:id", nativeQuery = true)
+    Product selectById2(long id);
 
 }

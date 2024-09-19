@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("dbImpl")
 public class ProductServiceImpl implements ProductService {
@@ -18,6 +19,20 @@ public class ProductServiceImpl implements ProductService {
     public Product getProductById(long id) throws ProductNotFoundException {
         return productRepository.findById(id);
     }
+
+//    with this we get description as "Product with id:4 is not available" if id 4 not available
+//    @Override
+//    public Product getProductById(long id) throws ProductNotFoundException {
+////        return null;
+//        Optional<Product> optionalProduct = productRepository.findById(id);
+//        if(optionalProduct.isPresent()){
+//            return optionalProduct.get();
+//        }
+//        else {
+//            throw new ProductNotFoundException("Product with id:" + id + " is not available");
+//        }
+//    }
+
 
     @Override
     public List<Product> getProductList(){
