@@ -1,6 +1,7 @@
 package com.example.ProductService.repositories;
 
 import com.example.ProductService.models.Product;
+import com.example.ProductService.projections.ProductInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -54,4 +55,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "select * from product p where p.id =:id", nativeQuery = true)
     Product selectById2(long id);
 
+    @Query(nativeQuery = true,
+            value = "select p.id, p.name, p.description as descp from product p where id=:id")
+    ProductInfo getProductInfo(long id);
 }

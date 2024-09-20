@@ -2,6 +2,7 @@ package com.example.ProductService.services;
 
 import com.example.ProductService.exception.ProductNotFoundException;
 import com.example.ProductService.models.Product;
+import com.example.ProductService.projections.ProductInfo;
 import com.example.ProductService.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(long id) throws ProductNotFoundException {
+        ProductInfo productInfo = productRepository.getProductInfo(id);
+        System.out.println(productInfo.getDescp());
+        System.out.println(productInfo.getName());
+        System.out.println(productInfo.getId());
         return productRepository.findById(id);
     }
 
