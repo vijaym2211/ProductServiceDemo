@@ -2,10 +2,11 @@ package com.example.ProductService.repositories;
 
 import com.example.ProductService.models.Product;
 import com.example.ProductService.projections.ProductInfo;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +30,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     // Find product by Id
     // select * from products where id = {id}
-    Product findById(long id);
+//    Product findById(long id);
+    Optional<Product> findById(long id);
 
 //    Declare query
 //    Optional<Product> findById(long id);
@@ -55,7 +57,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "select * from product p where p.id =:id", nativeQuery = true)
     Product selectById2(long id);
 
+    //For Projection
     @Query(nativeQuery = true,
             value = "select p.id, p.name, p.description as descp from product p where id=:id")
     ProductInfo getProductInfo(long id);
+
+    Page<Product> findAll(Pageable pageable);
 }

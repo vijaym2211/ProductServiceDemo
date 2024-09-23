@@ -4,7 +4,10 @@ import com.example.ProductService.exception.ProductNotFoundException;
 import com.example.ProductService.models.Product;
 import com.example.ProductService.projections.ProductInfo;
 import com.example.ProductService.repositories.ProductRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,27 +19,32 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductRepository productRepository;
 
+//    @Override
+//    public Product getProductById(long id) throws ProductNotFoundException {
+//        ProductInfo productInfo = productRepository.getProductInfo(id);
+//        System.out.println(productInfo.getDescp());
+//        System.out.println(productInfo.getName());
+//        System.out.println(productInfo.getId());
+//        return productRepository.findById(id);
+//    }
+
+//    with this we get description as "Product with id:4 is not available" if id 4 not available
     @Override
     public Product getProductById(long id) throws ProductNotFoundException {
+        //Projections
         ProductInfo productInfo = productRepository.getProductInfo(id);
         System.out.println(productInfo.getDescp());
         System.out.println(productInfo.getName());
         System.out.println(productInfo.getId());
-        return productRepository.findById(id);
+//        return null;
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if(optionalProduct.isPresent()){
+            return optionalProduct.get();
+        }
+        else {
+            throw new ProductNotFoundException("Product with id:" + id + " is not available");
+        }
     }
-
-//    with this we get description as "Product with id:4 is not available" if id 4 not available
-//    @Override
-//    public Product getProductById(long id) throws ProductNotFoundException {
-////        return null;
-//        Optional<Product> optionalProduct = productRepository.findById(id);
-//        if(optionalProduct.isPresent()){
-//            return optionalProduct.get();
-//        }
-//        else {
-//            throw new ProductNotFoundException("Product with id:" + id + " is not available");
-//        }
-//    }
 
 
     @Override
@@ -71,12 +79,19 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(id);
     }
 
-    public Product updateById(long id, String name, String category, String description){
+    public Product updateById(long id, String name, String category, String description) throws ProductNotFoundException{
 
-        Product p = productRepository.findById(id);
-        if(p == null){
-            throw new RuntimeException();
+//        Product p = productRepository.findById(id);
+//        if(p == null){
+//            throw new RuntimeException();
+//        }
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isEmpty()) {
+            throw new ProductNotFoundException("Product with id: " + id + " not found.");
+//            throw new RuntimeException();
         }
+
+        Product p = optionalProduct.get();  // Get the actual Product from the Optional
 
         p.setCategory(category);
         p.setDescription(description);
@@ -84,5 +99,13 @@ public class ProductServiceImpl implements ProductService {
         p = productRepository.save(p);
         System.out.println(p.getId());
         return p;
+    }
+    @Override
+    public Page<Product> getAllProducts(int pageSize, int pageNum){
+        //This will reduce the chances of vulnerability by minimizing size of page
+        pageSize = Math.min(pageSize, 100);
+        return productRepository.findAll(PageRequest.of(pageNum, pageSize,
+                Sort.by("name").descending().and(Sort.by("category")
+                )));
     }
 }

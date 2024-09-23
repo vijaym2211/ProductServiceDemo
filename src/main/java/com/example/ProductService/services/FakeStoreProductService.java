@@ -3,6 +3,7 @@ package com.example.ProductService.services;
 import com.example.ProductService.dtos.FakeStoreProductDto;
 //import com.example.ProductService.exceptions.ProductNotFoundException;
 import com.example.ProductService.models.Product;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -57,5 +58,10 @@ public class FakeStoreProductService implements ProductService{
         product.setDescription(dto.getDescription());
         product.setName(dto.getTitle());
         return product;
+    }
+
+    @Override
+    public Page<Product> getAllProducts(int pageSize, int pageNum){
+        return null;
     }
 }

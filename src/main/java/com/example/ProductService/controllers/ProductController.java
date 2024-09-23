@@ -6,6 +6,7 @@ import com.example.ProductService.dtos.CreateProductRequestDto;
 import com.example.ProductService.exception.ProductNotFoundException;
 import com.example.ProductService.models.Product;
 import com.example.ProductService.services.ProductService;
+import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
@@ -44,8 +45,9 @@ public class ProductController {
                 requestDto.getDescription());
     }
 
-    @GetMapping()
-    public List<Product> getProductList(@RequestBody CreateProductRequestDto req){
+    @GetMapping("/AllProducts")
+    public List<Product> getProductList(){ // error you’re encountering indicates that your getProductList
+        // method is expecting a request body, but none is being provided when you hit the endpoint.
         return productService.getProductList();
     }
 
@@ -59,9 +61,19 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public Product updateById(@PathVariable("id") long id, @RequestBody CreateProductRequestDto requestDto){
+    public Product updateById(@PathVariable("id") long id, @RequestBody CreateProductRequestDto requestDto) throws ProductNotFoundException{
         return productService.updateById(id,requestDto.getName(),
                 requestDto.getCategory(), requestDto.getDescription());
     }
+
+    @GetMapping()
+    public ResponseEntity<Page<Product>> getAllProducts(
+        @RequestParam(value = "pageSize", defaultValue = "2") int pageSize,
+        @RequestParam(value = "pageNum", defaultValue = "0") int pageNum
+        ){
+        Page<Product> products= productService.getAllProducts(pageSize, pageNum);
+        return ResponseEntity.ok(products);
+    }
+
 
 }
