@@ -20,5 +20,5 @@ public interface ProductService {
 
     public Product updateById(long id, String name, String category, String description) throws ProductNotFoundException;;
 
-    public Page<Product> getAllProducts(int pageSize, int pageNum);
+    public Page<Product> getAllProducts(int pageSize, int pageNum, String sortBy);
 }

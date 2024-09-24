@@ -31,6 +31,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // Find product by Id
     // select * from products where id = {id}
 //    Product findById(long id);
+    /*Optional<Product> is a container object in Java that may or may not contain a non-null value of type Product.
+    It’s part of the java.util package and was introduced in Java 8 to help avoid NullPointerExceptions
+    and to promote more functional programming practices.*/
     Optional<Product> findById(long id);
 
 //    Declare query

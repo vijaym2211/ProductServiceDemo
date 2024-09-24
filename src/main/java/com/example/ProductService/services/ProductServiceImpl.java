@@ -28,7 +28,7 @@ public class ProductServiceImpl implements ProductService {
 //        return productRepository.findById(id);
 //    }
 
-//    with this we get description as "Product with id:4 is not available" if id 4 not available
+    //    with this we get description as "Product with id:4 is not available" if id 4 not available
     @Override
     public Product getProductById(long id) throws ProductNotFoundException {
         //Projections
@@ -45,7 +45,6 @@ public class ProductServiceImpl implements ProductService {
             throw new ProductNotFoundException("Product with id:" + id + " is not available");
         }
     }
-
 
     @Override
     public List<Product> getProductList(){
@@ -100,12 +99,36 @@ public class ProductServiceImpl implements ProductService {
         System.out.println(p.getId());
         return p;
     }
+//    @Override
+//    public Page<Product> getAllProducts(int pageSize, int pageNum){
+//        //This will reduce the chances of vulnerability by minimizing size of page
+//        pageSize = Math.min(pageSize, 100);
+//        return productRepository.findAll(PageRequest.of(pageNum, pageSize,
+//                Sort.by("name").descending().and(Sort.by("category")
+//                )));
+//    }
     @Override
-    public Page<Product> getAllProducts(int pageSize, int pageNum){
-        //This will reduce the chances of vulnerability by minimizing size of page
+    public Page<Product> getAllProducts(int pageSize, int pageNum, String sortBy) {
+        // This will reduce the chances of vulnerability by minimizing size of page
         pageSize = Math.min(pageSize, 100);
-        return productRepository.findAll(PageRequest.of(pageNum, pageSize,
-                Sort.by("name").descending().and(Sort.by("category")
-                )));
+
+        // Parse the sortBy parameter
+        String[] sortParams = sortBy.split(",");
+        Sort sort = Sort.unsorted();
+
+        // Check if the sort parameters have an even number (field and direction)
+        for (int i = 0; i < sortParams.length; i += 2) {
+            if (i + 1 < sortParams.length) {
+                String sortField = sortParams[i];
+                String sortDirection = sortParams[i + 1].toLowerCase();
+
+                // Determine sorting direction
+                Sort.Direction direction = "desc".equals(sortDirection) ? Sort.Direction.DESC : Sort.Direction.ASC;
+
+                // Append to Sort object
+                sort = sort.and(Sort.by(direction, sortField));
+            }
+        }
+        return productRepository.findAll(PageRequest.of(pageNum, pageSize, sort));
     }
 }
