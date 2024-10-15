@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/products")  //added common part from @Getmapping
 public class ProductController {
     @Autowired
-    @Qualifier("dbImpl")
+    @Qualifier("fakeStore")
     private ProductService productService;
 
     // GET /products/{id}
@@ -68,10 +68,10 @@ public class ProductController {
 
     @GetMapping()
     public ResponseEntity<Page<Product>> getAllProducts(
-        @RequestParam(value = "pageSize", defaultValue = "2") int pageSize,
-        @RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
-        @RequestParam(value = "sortBy", defaultValue = "name,asc") String sortBy
-        ){
+            @RequestParam(value = "pageSize", defaultValue = "2") int pageSize,
+            @RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
+            @RequestParam(value = "sortBy", defaultValue = "name,asc") String sortBy
+    ){
         Page<Product> products= productService.getAllProducts(pageSize, pageNum, sortBy);
         /*If you want to simplify the response and exclude some of this metadata, you would
         need to create a custom response DTO that includes only the fields you want to return*/
