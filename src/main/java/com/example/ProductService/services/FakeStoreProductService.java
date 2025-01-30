@@ -61,12 +61,12 @@ public class FakeStoreProductService implements ProductService{
     }
 
     @Override
-    public Product updateById(long id, String name, String category, String description) {
+    public Product updateById(long id, String name, String category, String description, long price) {
         return null;
     }
 
     @Override
-    public Product createProduct(String name, String category, String description) {
+    public Product createProduct(String name, String category, String description, long price) {
         return null;
     }
 

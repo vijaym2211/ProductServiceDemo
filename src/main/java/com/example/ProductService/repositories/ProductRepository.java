@@ -62,7 +62,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     //For Projection
     @Query(nativeQuery = true,
-            value = "select p.id, p.name, p.description as descp from product p where id=:id")
+            value = "select p.id, p.name, p.description, p.price as descp from product p where id=:id")
     ProductInfo getProductInfo(long id);
 
     Page<Product> findAll(Pageable pageable);

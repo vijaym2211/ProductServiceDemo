@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/products")  //added common part from @Getmapping
 public class ProductController {
     @Autowired
-    @Qualifier("fakeStore")
+    @Qualifier("dbImpl")
     private ProductService productService;
 
     // GET /products/{id}
@@ -42,7 +42,7 @@ public class ProductController {
 //        }
 
         return productService.createProduct(requestDto.getName(), requestDto.getCategory(),
-                requestDto.getDescription());
+                requestDto.getDescription(), requestDto.getPrice());
     }
 
     @GetMapping("/AllProducts")
@@ -63,7 +63,8 @@ public class ProductController {
     @PutMapping("/{id}")
     public Product updateById(@PathVariable("id") long id, @RequestBody CreateProductRequestDto requestDto) throws ProductNotFoundException{
         return productService.updateById(id,requestDto.getName(),
-                requestDto.getCategory(), requestDto.getDescription());
+                requestDto.getCategory(), requestDto.getDescription(),
+                requestDto.getPrice());
     }
 
     @GetMapping()

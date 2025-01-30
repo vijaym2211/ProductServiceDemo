@@ -25,6 +25,7 @@ public class Product implements Serializable {
     private String name;
     private String category;
     private String description;
+    private long price;
 
     public String getName() {
         return name;
@@ -48,5 +49,13 @@ public class Product implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
     }
 }

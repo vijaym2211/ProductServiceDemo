@@ -33,9 +33,13 @@ public class ProductServiceImpl implements ProductService {
     public Product getProductById(long id) throws ProductNotFoundException {
         //Projections
         ProductInfo productInfo = productRepository.getProductInfo(id);
+        if (productInfo == null) {
+            throw new ProductNotFoundException("Product with ID " + id + " not found.");
+        }
         System.out.println(productInfo.getDescp());
         System.out.println(productInfo.getName());
         System.out.println(productInfo.getId());
+        System.out.println(productInfo.getPrice());
 //        return null;
         Optional<Product> optionalProduct = productRepository.findById(id);
         if(optionalProduct.isPresent()){
@@ -52,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product createProduct(String name, String category, String description) {
+    public Product createProduct(String name, String category, String description, long price) {
         /*
         select * from products where name = {name}
         if the above query returns a product, then do not create a new product
@@ -65,6 +69,7 @@ public class ProductServiceImpl implements ProductService {
         product.setCategory(category);
         product.setDescription(description);
         product.setName(name);
+        product.setPrice(price);
         product = productRepository.save(product);
         System.out.println(product.getId());
         return product;
@@ -78,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(id);
     }
 
-    public Product updateById(long id, String name, String category, String description) throws ProductNotFoundException{
+    public Product updateById(long id, String name, String category, String description, long price) throws ProductNotFoundException{
 
 //        Product p = productRepository.findById(id);
 //        if(p == null){
@@ -95,6 +100,7 @@ public class ProductServiceImpl implements ProductService {
         p.setCategory(category);
         p.setDescription(description);
         p.setName(name);
+        p.setPrice(price);
         p = productRepository.save(p);
         System.out.println(p.getId());
         return p;

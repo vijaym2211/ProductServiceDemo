@@ -11,14 +11,14 @@ public interface ProductService {
 //    com.example.ProductService.models.Product getProductById(long productId);
     public Product getProductById(long id) throws ProductNotFoundException;
 
-    public Product createProduct(String name, String category, String description);
+    public Product createProduct(String name, String category, String description, long price);
 
     public List<Product> getProductList();
     public void deleteByid(long id);
 
     public List<Product> getByCate(String category);
 
-    public Product updateById(long id, String name, String category, String description) throws ProductNotFoundException;;
+    public Product updateById(long id, String name, String category, String description, long price) throws ProductNotFoundException;;
 
     public Page<Product> getAllProducts(int pageSize, int pageNum, String sortBy);
 }

@@ -9,4 +9,6 @@ public interface ProductInfo {
     String getName();
 
     String getDescp();
+
+    Long getPrice();
 }
