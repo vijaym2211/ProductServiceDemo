@@ -15,7 +15,7 @@ public class Order {
 
     private Long productId;
     private Long userId;
-    private int quantity;
+    private Long quantity;
     private double totalPrice;
 
     @Enumerated(EnumType.STRING)
@@ -48,11 +48,11 @@ public class Order {
         this.userId = userId;
     }
 
-    public int getQuantity() {
+    public Long getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Long quantity) {
         this.quantity = quantity;
     }
 

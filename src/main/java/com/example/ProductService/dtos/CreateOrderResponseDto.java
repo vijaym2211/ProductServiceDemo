@@ -8,7 +8,7 @@ import lombok.Data;
 public class CreateOrderResponseDto {
     private Long productId;
     private Long userId;
-    private int quantity;
+    private Long quantity;
     private double totalPrice;
     private OrderStatus status;
 }
